@@ -13,4 +13,4 @@
 - Java Version
    - 11
 
-またプロジェクトの雛形は[microsoft/vscode-remote-try-java](https://github.com/microsoft/vscode-remote-try-java)を使用しています。
+またプロジェクトの雛形は[microsoft/vscode-remote-try-java](https://github.com/microsoft/vscode-remote-try-java)を使用していますが、OSを[Amazon Linux 2](https://aws.amazon.com/jp/amazon-linux-2/)、JDKは[Amazon Corretto](https://aws.amazon.com/jp/corretto/)に変更しています。
