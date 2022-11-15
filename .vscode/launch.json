@@ -7,9 +7,9 @@
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopOnEntry": false,
-            "mainClass": "com.mycompany.app.App",
+            "mainClass": "net.pug89.springboot.sandbox.SandboxForSpringBootApplication",
             "args": "",
-            "projectName": "my-app"
+            "projectName": "sandbox"
         }
     ]
 }
