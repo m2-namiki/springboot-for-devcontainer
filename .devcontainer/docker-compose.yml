@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: sandbox_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: sandbox
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypass
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      TZ: Asia/Tokyo
+    ports:
+      - 3306:3306
+    volumes:
+      - .\init_db:/docker-entrypoint-initdb.d
+      - .\db:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+  app:
+    container_name: sandbox-app
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    restart: always
+    working_dir: /workspaces/sandbox
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://sandbox_db/sandbox?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=mypass
+      - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=3
+      - SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1
+      - 
+      - TZ=Asia/Tokyo
+    ports:
+      - 8080:8080
+    tty: true
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspaces/sandbox
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  app:
+  db:
